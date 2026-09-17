@@ -1,0 +1,208 @@
+{
+  "generatedAt": "2026-09-17T15:16:13.262Z",
+  "source": "Current production chooseMove with injected transport; no live API calls",
+  "jungleDrawHistory": {
+    "quietCounts": [0, 98],
+    "identicalRequests": false,
+    "nearDrawOpponentReplies": 24,
+    "nearDrawOpponentDrawingReplies": 24
+  },
+  "flightSixHistory": {
+    "sixCounts": [1, 2],
+    "identicalRequests": false,
+    "afterNextSix": [
+      {
+        "turn": 0,
+        "die": 6,
+        "legalMoves": 4
+      },
+      {
+        "turn": 1,
+        "die": null,
+        "legalMoves": 0
+      }
+    ]
+  },
+  "flightThreat": {
+    "planesBefore": [
+      [0, 10, -1, -1],
+      [26, -1, -1, -1]
+    ],
+    "ownMove": "plane-0",
+    "sentCandidate": {
+      "action": "1 號機 前進至 1",
+      "movedPlane": {
+        "id": "0-0",
+        "side": 0,
+        "index": 0,
+        "progress": 1,
+        "zone": "shared-track",
+        "sharedCell": 1,
+        "remainingProgressToFinish": 55
+      },
+      "launched": false,
+      "finishesPlane": false,
+      "bonusProgress": 0,
+      "captured": [],
+      "counts": [
+        {
+          "side": 0,
+          "hangar": 2,
+          "sharedTrack": 2,
+          "homeLane": 0,
+          "finished": 0
+        },
+        {
+          "side": 1,
+          "hangar": 3,
+          "sharedTrack": 1,
+          "homeLane": 0,
+          "finished": 0
+        }
+      ],
+      "winner": null,
+      "nextPlayer": 1,
+      "extraRoll": false,
+      "consecutiveSixes": 0,
+      "nextRolls": [
+        {
+          "die": 1,
+          "roller": 1,
+          "forfeitedThirdSix": false,
+          "nextPlayer": 1,
+          "consecutiveSixes": 0,
+          "moves": [
+            {
+              "moveId": "plane-0",
+              "destinationProgress": 27,
+              "finishesPlane": false,
+              "capturedPlaneIds": ["0-0"],
+              "winner": null,
+              "nextPlayer": 0
+            }
+          ]
+        },
+        {
+          "die": 2,
+          "roller": 1,
+          "forfeitedThirdSix": false,
+          "nextPlayer": 1,
+          "consecutiveSixes": 0,
+          "moves": [
+            {
+              "moveId": "plane-0",
+              "destinationProgress": 28,
+              "finishesPlane": false,
+              "capturedPlaneIds": [],
+              "winner": null,
+              "nextPlayer": 0
+            }
+          ]
+        },
+        {
+          "die": 3,
+          "roller": 1,
+          "forfeitedThirdSix": false,
+          "nextPlayer": 1,
+          "consecutiveSixes": 0,
+          "moves": [
+            {
+              "moveId": "plane-0",
+              "destinationProgress": 29,
+              "finishesPlane": false,
+              "capturedPlaneIds": [],
+              "winner": null,
+              "nextPlayer": 0
+            }
+          ]
+        },
+        {
+          "die": 4,
+          "roller": 1,
+          "forfeitedThirdSix": false,
+          "nextPlayer": 1,
+          "consecutiveSixes": 0,
+          "moves": [
+            {
+              "moveId": "plane-0",
+              "destinationProgress": 34,
+              "finishesPlane": false,
+              "capturedPlaneIds": [],
+              "winner": null,
+              "nextPlayer": 0
+            }
+          ]
+        },
+        {
+          "die": 5,
+          "roller": 1,
+          "forfeitedThirdSix": false,
+          "nextPlayer": 1,
+          "consecutiveSixes": 0,
+          "moves": [
+            {
+              "moveId": "plane-0",
+              "destinationProgress": 31,
+              "finishesPlane": false,
+              "capturedPlaneIds": [],
+              "winner": null,
+              "nextPlayer": 0
+            }
+          ]
+        },
+        {
+          "die": 6,
+          "roller": 1,
+          "forfeitedThirdSix": false,
+          "nextPlayer": 1,
+          "consecutiveSixes": 1,
+          "moves": [
+            {
+              "moveId": "plane-0",
+              "destinationProgress": 32,
+              "finishesPlane": false,
+              "capturedPlaneIds": [],
+              "winner": null,
+              "nextPlayer": 1
+            },
+            {
+              "moveId": "plane-1",
+              "destinationProgress": 0,
+              "finishesPlane": false,
+              "capturedPlaneIds": [],
+              "winner": null,
+              "nextPlayer": 1
+            },
+            {
+              "moveId": "plane-2",
+              "destinationProgress": 0,
+              "finishesPlane": false,
+              "capturedPlaneIds": [],
+              "winner": null,
+              "nextPlayer": 1
+            },
+            {
+              "moveId": "plane-3",
+              "destinationProgress": 0,
+              "finishesPlane": false,
+              "capturedPlaneIds": [],
+              "winner": null,
+              "nextPlayer": 1
+            }
+          ]
+        }
+      ]
+    },
+    "opponentRoll": 1,
+    "opponentMove": "plane-0",
+    "planesAfterReply": [
+      [-1, 10, -1, -1],
+      [27, -1, -1, -1]
+    ],
+    "movedPlaneCaptured": true
+  },
+  "openingRequestBytes": {
+    "jungle": 20564,
+    "flight": 12527
+  }
+}

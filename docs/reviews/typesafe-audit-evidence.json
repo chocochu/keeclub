@@ -1,0 +1,60 @@
+{
+  "generatedAt": "2026-09-17T15:10:27.848Z",
+  "source": "Current production chooseMove with injected transport; no live API calls",
+  "jungleDrawHistory": {
+    "quietCounts": [0, 98],
+    "identicalRequests": true,
+    "nearDrawOpponentReplies": 24,
+    "nearDrawOpponentDrawingReplies": 24
+  },
+  "flightSixHistory": {
+    "sixCounts": [1, 2],
+    "identicalRequests": true,
+    "afterNextSix": [
+      {
+        "turn": 0,
+        "die": 6,
+        "legalMoves": 4
+      },
+      {
+        "turn": 1,
+        "die": null,
+        "legalMoves": 0
+      }
+    ]
+  },
+  "flightThreat": {
+    "planesBefore": [
+      [0, 10, -1, -1],
+      [26, -1, -1, -1]
+    ],
+    "ownMove": "plane-0",
+    "sentCandidate": {
+      "move": {
+        "id": "plane-0",
+        "piece": "0",
+        "progress": 1,
+        "label": "1 號機 前進至 1"
+      },
+      "winner": null,
+      "pieces": [],
+      "planes": [
+        [1, 10, -1, -1],
+        [26, -1, -1, -1]
+      ],
+      "opponentImmediateWins": [],
+      "opponentCaptures": []
+    },
+    "opponentRoll": 1,
+    "opponentMove": "plane-0",
+    "planesAfterReply": [
+      [-1, 10, -1, -1],
+      [27, -1, -1, -1]
+    ],
+    "movedPlaneCaptured": true
+  },
+  "openingRequestBytes": {
+    "jungle": 24038,
+    "flight": 2258
+  }
+}

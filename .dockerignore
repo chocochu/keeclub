@@ -1,0 +1,24 @@
+# Dependencies, generated output, and local state
+node_modules/
+dist/
+.data/
+.wrangler/
+coverage/
+playwright-report/
+test-results/
+*.log
+*.tsbuildinfo
+
+# Secrets are supplied at runtime, never baked into build layers
+.env
+.env.*
+.dev.vars
+.dev.vars.*
+
+# Repository and contributor-only files
+.git/
+.agents/
+docs/
+PAPERCUTS.md
+skills-lock.json
+.DS_Store
