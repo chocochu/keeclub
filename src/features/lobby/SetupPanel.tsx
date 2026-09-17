@@ -4,6 +4,7 @@ import { useShallow } from 'zustand/react/shallow';
 import { configQuery } from '../../lib/query-client';
 import { readCredentials } from '../../lib/storage';
 import { useAppStore } from '../../stores/app-store';
+import { DifficultyPicker } from './DifficultyPicker';
 import { FlightSetup } from './FlightSetup';
 import { useEnterRoom } from './use-enter-room';
 import { isBrowserRoom } from '../../lib/room-location';
@@ -138,6 +139,7 @@ export function SetupPanel() {
             </fieldset>
           </>
         )}
+        {!joining && kind === 'jungle' && mode === 'ai' && <DifficultyPicker disabled={busy} />}
         {!joining && kind === 'jungle' && (
           <fieldset className="game-settings">
             <legend>遊戲設定</legend>

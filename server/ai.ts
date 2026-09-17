@@ -2,7 +2,7 @@ import { Type } from '@sinclair/typebox';
 import { Value } from '@sinclair/typebox/value';
 import { APIConnectionError, APIError, TypeSafeClient, type Fetch } from '@typesafe-ai/sdk';
 import { legalMoves, type Game, type Move } from '../shared/game';
-import { buildMoveRequest } from './ai-state';
+import { buildAiRequest, type AiOptions } from './ai-request';
 
 const ChoiceResponseSchema = Type.Object({
   answers: Type.Object({
@@ -16,18 +16,21 @@ export async function chooseMove(
   model: string,
   fetcher: Fetch = fetch,
   usageContext?: { roomCode: string; gameId: string; attemptId?: string },
+  options: AiOptions = {},
 ): Promise<Move> {
   const moves = legalMoves(game);
   if (!moves.length) throw new Error('沒有合法步法。');
   if (moves.length === 1) return moves[0];
-  const request = buildMoveRequest(game, model);
+  const request = buildAiRequest(game, model, options);
   const offered = new Set(Object.keys(request.questions.move.criteria));
   const eligible = moves.filter((move) => offered.has(move.id));
   if (eligible.length === 1) return eligible[0];
   const client = new TypeSafeClient({
     apiKey,
     baseURL: 'https://api.typesafe.ai',
-    fetch: fetcher,
+    // The SDK calls its fetch property as a method. Native Workers fetch rejects
+    // that SDK instance as its receiver; invoke the supplied function standalone.
+    fetch: (input, init) => fetcher(input, init),
     timeout: 20_000,
     retry: { maxRetries: 0 },
     logLevel: 'off',

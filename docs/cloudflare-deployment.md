@@ -2,6 +2,20 @@
 
 The Cloudflare target serves the existing Vite/PWA output with Workers Static Assets. Elysia handles HTTP; Eden keeps the shared HTTP and room-specific WebSocket contracts. One SQLite-backed `GameRoom` Durable Object owns each online or AI room. Human-only local games remain browser-only.
 
+## Deployed production — 2026-09-18
+
+[Open production](https://kee-club.chocochu-cc.workers.dev). Active version `34518ec6-592c-43f0-ab9d-f892542f76c0` includes the TypeSafe secret. Production uses its own SQLite Durable Object namespace, separate from staging.
+
+All 165 tests and project checks passed before publishing. Production browser checks passed room creation/joining, synchronized moves over real WebSockets, reconnect, and offline local play/reload, with no browser errors. A live Jungle AI turn completed successfully; the Worker usage log recorded `input_tokens: 11046`, resolved model `jev-1.13.0`, and the room, match, and attempt IDs. The configured model alias remains `jev-latest`. This successful production check supersedes the provider failure recorded below.
+
+## Deployed staging — 2026-09-18
+
+[Open staging](https://kee-club-staging.chocochu-cc.workers.dev). Code version `306a0b9f-07fd-4323-b77e-3590ad958489` was deployed with the TypeSafe key stored as a Cloudflare secret.
+
+All 165 tests and project checks passed before this deployment. Hosted browser checks passed room creation/joining, synchronized moves over WebSockets, reconnect, and offline local play/reload. The service worker and manifest return `Cache-Control: no-cache`.
+
+The first live AI check exposed a native fetch receiver incompatibility: the SDK invokes its fetch property as a method. The adapter now invokes the supplied fetch function standalone, with a regression test covering the receiver contract. After deploying that fix, TypeSafe temporarily returned HTTP 503 from both staging and an independent local request. The room preserved the game and offered manual Retry. No automatic inference retry was enabled.
+
 ## Local development and checks
 
 ```sh

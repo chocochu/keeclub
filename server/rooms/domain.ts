@@ -24,6 +24,9 @@ export function createRoom(code: string, input: CreateRoom, aiAvailable: boolean
     code,
     kind: input.kind,
     mode: input.mode,
+    ...(input.kind === 'jungle' && input.mode === 'ai'
+      ? { aiDifficulty: input.aiDifficulty ?? 'normal', aiMoveCounts: {} }
+      : {}),
     players: Array.from({ length: count }, (_, index) => {
       if (index === 0) return seat;
       const ai = seats?.[index].ai ?? input.mode === 'ai';
@@ -58,6 +61,9 @@ export function roomView(room: Room, side: Side, connected: (side: Side) => bool
     code: room.code,
     kind: room.kind,
     mode: room.mode,
+    ...(room.kind === 'jungle' && room.mode === 'ai'
+      ? { aiDifficulty: room.aiDifficulty ?? 'easy' }
+      : {}),
     game: room.game,
     side,
     ready: ready(room),
@@ -100,6 +106,7 @@ export function actOnRoom(room: Room, side: Side, action: RoomAction, dice: () =
           );
           if (room.players.some((_, index) => isAiPlayer(room, index)))
             room.aiGameId = randomUUID();
+          room.aiMoveCounts = {};
           room.rematch = [];
           room.aiError = null;
         }

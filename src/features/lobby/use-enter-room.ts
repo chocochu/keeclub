@@ -26,6 +26,7 @@ export function useEnterRoom() {
         flightSettings,
         flightPlayers,
         jungleSettings,
+        aiDifficulty,
         setError,
       } = useAppStore.getState();
       setError('');
@@ -42,7 +43,7 @@ export function useEnterRoom() {
                   flightSettings,
                   flightPlayers: flightPlayers.slice(0, flightSettings.playerCount),
                 }
-              : { jungleSettings }),
+              : { jungleSettings, ...(mode === 'ai' ? { aiDifficulty } : {}) }),
           });
       return { credentials: { code: result.room.code, token: result.token }, room: result.room };
     },

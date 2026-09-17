@@ -1,11 +1,19 @@
 import { Type, type Static } from '@sinclair/typebox';
-import { GameKindSchema, GameSchema, ModeSchema, SideSchema } from '../../shared/contracts';
+import {
+  AiDifficultySchema,
+  GameKindSchema,
+  GameSchema,
+  ModeSchema,
+  SideSchema,
+} from '../../shared/contracts';
 import type { chooseMove } from '../ai';
 
 export const StoredRoomSchema = Type.Object({
   code: Type.String(),
   kind: GameKindSchema,
   mode: ModeSchema,
+  aiDifficulty: Type.Optional(AiDifficultySchema),
+  aiMoveCounts: Type.Optional(Type.Record(Type.String(), Type.Integer({ minimum: 0 }))),
   players: Type.Array(
     Type.Union([
       Type.Object({ name: Type.String(), hash: Type.String(), ai: Type.Optional(Type.Boolean()) }),

@@ -415,3 +415,52 @@ test('unknown storage versions fail as recoverable server errors instead of clea
   expect(response.status).toBe(503);
   expect(await response.json()).toEqual({ error: '伺服器暫時無法處理，請稍後重試。' });
 });
+
+test('Jungle difficulty survives eviction and reaches the durable AI request; rematch clears move counts', async () => {
+  for (const [code, difficulty] of [
+    ['EASY23', 'easy'],
+    ['NORM23', 'normal'],
+  ] as const) {
+    const host = value(
+      await stub(code).create(code, {
+        name: 'Host',
+        kind: 'jungle',
+        mode: 'ai',
+        aiDifficulty: difficulty,
+      }),
+    );
+    expect(host.room.aiDifficulty).toBe(difficulty);
+    await evictDurableObject(stub(code));
+    const room = value(await stub(code).getView(host.token)).room;
+    expect(room.aiDifficulty).toBe(difficulty);
+    const fetch = vi.spyOn(globalThis, 'fetch').mockImplementation(async (_url, init) => {
+      const request = JSON.parse(init!.body as string);
+      expect(!!request.state.lookahead).toBe(difficulty === 'normal');
+      return Response.json({
+        answers: {
+          move: { type: 'choice', choice: Object.keys(request.questions.move.criteria)[0] },
+        },
+        usage: { input_tokens: 100 },
+      });
+    });
+    value(
+      await stub(code).act(host.token, {
+        type: 'move',
+        id: room.moves[0].id,
+        revision: room.revision,
+      }),
+    );
+    await runDurableObjectAlarm(stub(code));
+    expect(fetch).toHaveBeenCalledTimes(1);
+    const after = await saved(code);
+    expect(Object.values(after.room.aiMoveCounts ?? {})).toEqual([1]);
+    expect(after.room.game.ply).toBe(2);
+    expect(value(await stub(code).getView(host.token)).room).not.toHaveProperty('aiMoveCounts');
+    after.room.game.winner = 0;
+    await write(after);
+    const rematch = value(await stub(code).act(host.token, { type: 'rematch' })).room;
+    expect(rematch.aiDifficulty).toBe(difficulty);
+    expect((await saved(code)).room.aiMoveCounts).toEqual({});
+    fetch.mockClear();
+  }
+});

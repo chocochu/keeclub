@@ -1,5 +1,6 @@
 import { randomUUID } from 'node:crypto';
-import { applyMove, legalMoves, rollDice } from '../../shared/game';
+import { legalMoves, rollDice } from '../../shared/game';
+import { applyAiMove, roomAiOptions } from './ai-settings';
 import { chooseMove } from '../ai';
 import type { Room } from './model';
 import { isAiPlayer } from '../../shared/players';
@@ -35,11 +36,18 @@ export async function playAiTurn(room: Room, options: AiTurnOptions) {
       if (!isAiPlayer(room, room.game.turn) || room.game.winner !== null) break;
       if (!legalMoves(room.game).length) continue;
       const revision = room.revision;
-      const move = await choose(structuredClone(room.game), apiKey, model, undefined, usageContext);
+      const move = await choose(
+        structuredClone(room.game),
+        apiKey,
+        model,
+        undefined,
+        usageContext,
+        roomAiOptions(room),
+      );
       if (room.game.winner !== null || !isAiPlayer(room, room.game.turn)) break;
       // Another human may withdraw while this choice is pending. Reconsider the new board.
       if (room.revision !== revision) continue;
-      room.game = applyMove(room.game, move.id);
+      applyAiMove(room, move);
       changed(room);
     }
   } catch (error) {

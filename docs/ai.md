@@ -13,7 +13,7 @@ Integration uses the official [`@typesafe-ai/sdk`](https://docs.typesafe.ai/sdk/
 
 The [TypeSafe skill](../.agents/skills/typesafe-ai/SKILL.md) is installed locally for Codex using `npx skills add typesafe-ai/skills --skill typesafe-ai --agent codex --yes`. Use it when modifying this integration; consult its linked live docs before changing SDK calls or question design. `skills-lock.json` records the installation.
 
-The engine validates every selected move, with TypeBox checking the response at runtime in addition to SDK type inference. Code offers immediate wins first; otherwise Jungle excludes moves permitting an immediate opponent win when a safe alternative exists. All other tradeoffs use TypeSafe Choice. A single remaining option is executed without an API call; provider choices outside the offered set are rejected. Service errors leave the AI turn intact with a **重試 AI 回合** button; there is no hidden substitute bot. The model is a casual opponent; playing strength has not been benchmarked. Calls use a 20-second SDK timeout (including response body delivery) and `retry: { maxRetries: 0 }` for explicit manual retry. SDK errors are translated to safe Traditional Chinese messages without exposing provider response bodies or transport details.
+The engine validates every selected move, with TypeBox checking the response at runtime in addition to SDK type inference. Code offers immediate wins first; otherwise Jungle excludes moves permitting an immediate opponent win when a safe alternative exists. All other tradeoffs use TypeSafe Choice. A single remaining option is executed without an API call; provider choices outside the offered set are rejected. Service errors leave the AI turn intact with a **重試 AI 回合** button; there is no hidden substitute bot. Jungle offers Easy (baseline) and Normal (three-ply lookahead), with Normal as the default for new AI rooms. Calls use a 20-second SDK timeout (including response body delivery) and `retry: { maxRetries: 0 }` for explicit manual retry. SDK errors are translated to safe Traditional Chinese messages without exposing provider response bodies or transport details.
 
 Without a key, friend rooms and same-device games work. AI creation shows a setup message.
 
@@ -28,3 +28,32 @@ moves make no API call and emit no usage event. Capture stdout in your hosting l
 For Cloudflare, use `.dev.vars` locally and Worker secrets in deployment; see [Cloudflare deployment](cloudflare-deployment.md).
 
 The [original audit and repair evidence](reviews/typesafe-review.md) are historical records, not a playing-strength benchmark.
+
+The [Jungle evaluation summary](jungle-benchmark.md) records the results behind
+Normal difficulty. The temporary runners and raw outputs have been pruned;
+production search and offline regression tests remain.
+
+## Jungle difficulty
+
+The lobby's AI mode offers **Easy** and **Normal**. Normal is the default for new
+rooms; the browser remembers the user's selection. Difficulty is persisted in
+room storage, shown during play, and retained on rematch. Old room snapshots
+without a difficulty field remain Easy, so an existing match is not silently
+upgraded. Flight and human-only games have no difficulty selector.
+
+`server/ai-request.ts` selects the evidence. Easy uses the existing baseline
+request; Normal adds the shared `server/ai-lookahead.ts` search: AI move, opponent
+reply, AI response. The total search budget is 50,000 nodes. Incomplete searches
+never claim a proof or score. Evaluation uses terminal wins/losses/draws and the
+same crude rank-sum material proxy as the benchmark; it cannot see recaptures on
+ply four. The Choice question, model, and immediate-win/loss safeguards stay the
+same.
+
+Both levels use `server/ai-move-policy.ts` to exclude an immediate draw whenever
+another legal move continues play, then exclude a third identical directed AI
+move whenever an alternative remains. Simulated AI continuations follow the
+same policy; human replies remain unrestricted engine-legal moves. This strict
+play-on policy can decline a useful defensive draw. AI move counts are private
+room state, persisted with each accepted move, preserved through reloads and
+manual retries, and reset on rematch. Counts never advance on failed or stale
+responses. Existing snapshots start counts from their next accepted AI move.

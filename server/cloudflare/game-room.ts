@@ -12,7 +12,8 @@ import {
   type RoomAction,
   type Side,
 } from '../../shared/contracts';
-import { applyMove, rollDice } from '../../shared/game';
+import { rollDice } from '../../shared/game';
+import { applyAiMove, roomAiOptions } from '../rooms/ai-settings';
 import { chooseMove } from '../ai';
 import { HttpError } from '../http/errors';
 import { actOnRoom, createRoom, joinRoom, needsAi, roomView } from '../rooms/domain';
@@ -350,6 +351,7 @@ export class GameRoom extends DurableObject<Env> {
           gameId: attempt.work.gameId,
           attemptId: attempt.work.attemptId,
         },
+        roomAiOptions(attempt.saved.room),
       );
     } catch (error) {
       failure =
@@ -374,7 +376,7 @@ export class GameRoom extends DurableObject<Env> {
       draft.room.thinking = false;
       if (current) {
         if (failure) draft.room.aiError = failure;
-        else if (move) draft.room.game = applyMove(draft.room.game, move.id);
+        else if (move) applyAiMove(draft.room, move);
       }
       this.queue(draft);
       this.touch(draft.room);

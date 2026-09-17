@@ -86,12 +86,12 @@ function drawState(game: Game) {
   };
 }
 
-function jungleCandidate(game: Game, move: Move) {
+function jungleCandidate(game: Game, move: Move, enumerateMoves: typeof legalMoves) {
   const next = applyMove(game, move.id);
   const captured = game.pieces.filter(
     (p) => !next.pieces.some((remaining) => remaining.id === p.id),
   );
-  const replies = legalMoves(next).map((reply) => {
+  const replies = enumerateMoves(next).map((reply) => {
     const afterReply = applyMove(next, reply.id);
     return {
       move: reply,
@@ -240,16 +240,23 @@ function moveQuestion<T extends { action: string; winner: Game['winner'] }>(
 }
 
 /** Pure request builder: code computes facts; Choice judges the remaining strategic tradeoff. */
-export function buildMoveRequest(game: Game, model: string) {
-  const moves = legalMoves(game);
+export function buildMoveRequest(game: Game, model: string, enumerateMoves = legalMoves) {
+  const moves = enumerateMoves(game);
   if (!moves.length) throw new Error('沒有合法步法。');
   return game.kind === 'jungle'
-    ? buildJungleRequest(game, model, moves)
+    ? buildJungleRequest(game, model, moves, enumerateMoves)
     : buildFlightRequest(game, model, moves);
 }
 
-function buildJungleRequest(game: Game, model: string, moves: Move[]) {
-  const candidates = Object.fromEntries(moves.map((m) => [m.id, jungleCandidate(game, m)]));
+function buildJungleRequest(
+  game: Game,
+  model: string,
+  moves: Move[],
+  enumerateMoves: typeof legalMoves,
+) {
+  const candidates = Object.fromEntries(
+    moves.map((m) => [m.id, jungleCandidate(game, m, enumerateMoves)]),
+  );
   const wins = moves.filter((m) => candidates[m.id].winner === game.turn);
   const safe = moves.filter((m) => candidates[m.id].opponentReplies.immediateWins.length === 0);
   const offered = (wins.length ? wins : safe.length ? safe : moves).map((m) => m.id);

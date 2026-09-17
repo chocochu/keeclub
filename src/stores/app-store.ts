@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import type {
+  AiDifficulty,
   Credentials,
   GameKind,
   Mode,
@@ -16,6 +17,8 @@ export type ConnectionStatus = 'connecting' | 'connected' | 'disconnected';
 interface AppState {
   kind: GameKind;
   mode: Mode;
+  aiDifficulty: AiDifficulty;
+  setAiDifficulty: (difficulty: AiDifficulty) => void;
   flightSettings: FlightSettings;
   flightPlayers: FlightPlayer[];
   setFlightPlayer: (index: number, player: FlightPlayer) => void;
@@ -56,6 +59,8 @@ export const useAppStore = create<AppState>()(
     (set) => ({
       kind: 'jungle',
       mode: 'friend',
+      aiDifficulty: 'normal',
+      setAiDifficulty: (aiDifficulty) => set({ aiDifficulty }),
       flightSettings: { tripleSix: 'all', playerCount: 2 },
       flightPlayers: Array.from({ length: 4 }, () => ({ name: '', ai: false })),
       setFlightPlayer: (index, player) =>
@@ -124,13 +129,22 @@ export const useAppStore = create<AppState>()(
     {
       name: 'kee:preferences',
       storage: createJSONStorage(() => storage),
-      partialize: ({ kind, mode, name, flightSettings, flightPlayers, jungleSettings }) => ({
+      partialize: ({
         kind,
         mode,
         name,
         flightSettings,
         flightPlayers,
         jungleSettings,
+        aiDifficulty,
+      }) => ({
+        kind,
+        mode,
+        name,
+        flightSettings,
+        flightPlayers,
+        jungleSettings,
+        aiDifficulty,
       }),
     },
   ),

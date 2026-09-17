@@ -133,6 +133,11 @@ export function TurnPanel({
           )}
         </div>
       ) : null}
+      {kind === 'jungle' && room.mode === 'ai' && (
+        <p className="room-ai-difficulty">
+          AI 難度 · <strong>{room.aiDifficulty === 'normal' ? 'Normal' : 'Easy'}</strong>
+        </p>
+      )}
       {kind === 'jungle' && (
         <p className="room-rule-setting">
           鼠跨水陸互吃：{game.jungleSettings?.ratCaptureAcrossBank ? '允許' : '不允許'}

@@ -513,3 +513,105 @@ The cleanup baseline check stopped at formatting because a required papercut log
 ## 2026-09-17T17:57:04.909Z — gpt-6-astra — Choco
 
 Docker validation for repository cleanup is unavailable because the configured OrbStack Docker socket does not exist; docker info cannot connect to a daemon. The ignore rules can be inspected, but a container build requires the user to start their Docker runtime.
+
+<!-- papercut:{"id":"c73e3b10-b84c-4947-ae03-d84896a68f30","timestamp":"2026-09-17T18:05:30.004Z","model":"gpt-6-astra","author":"Choco","source":"manual"} -->
+
+## 2026-09-17T18:05:30.004Z — gpt-6-astra — Choco
+
+The first live Cloudflare AI smoke returned the safe connection-error message although workerd tests passed; provider usage logs were absent. Investigating the deployed runtime transport before calling deployment fully verified.
+
+<!-- papercut:{"id":"1a22317a-23b7-40e6-b2ba-a06773e4423e","timestamp":"2026-09-17T18:07:56.813Z","model":"gpt-6-astra","author":"Choco","source":"manual"} -->
+
+## 2026-09-17T18:07:56.813Z — gpt-6-astra — Choco
+
+Deployment verification notes had moved from docs/verification.md to docs/history/verification.md since the implementation turn. The current docs inventory identified the new location.
+
+<!-- papercut:{"id":"43d34538-ea77-4968-981f-fbd17a16f904","timestamp":"2026-09-17T18:50:42.548Z","model":"gpt-6","author":"Choco","source":"manual"} -->
+
+## 2026-09-17T18:50:42.548Z — gpt-6 — Choco
+
+While researching TypeSafe improvements for MiniBoardGame, web.open rejected the official docs llms.txt URL as unsafe. Trying the linked documentation pages directly.
+
+<!-- papercut:{"id":"83e3fc81-9e0d-405a-bc07-74fdce263995","timestamp":"2026-09-17T18:59:42.830Z","model":"gpt-6","author":"Choco","source":"manual"} -->
+
+## 2026-09-17T18:59:42.830Z — gpt-6 — Choco
+
+While checking TypeSafe SDK types for the Jungle benchmark, I searched an absent src directory; the installed package ships its declarations in dist/index.d.mts.
+
+<!-- papercut:{"id":"a67a095e-56ed-4433-90a2-32f9ae530315","timestamp":"2026-09-17T18:59:55.809Z","model":"gpt-6","author":"Choco","source":"manual"} -->
+
+## 2026-09-17T18:59:55.809Z — gpt-6 — Choco
+
+The Jungle benchmark typecheck exposed TypeScript inferring optional undefined fields in a union, which TypeSafe JSON state rejects. Giving the analysis an explicit discriminated return type preserves the complete/incomplete contract without casts.
+
+<!-- papercut:{"id":"6a1d07a1-e502-46ca-ab53-498d0b460e3d","timestamp":"2026-09-17T19:00:10.074Z","model":"gpt-6","author":"Choco","source":"manual"} -->
+
+## 2026-09-17T19:00:10.074Z — gpt-6 — Choco
+
+The repository check stopped because new papercut CLI entries do not match oxfmt formatting. Formatting PAPERCUTS.md before rerunning the required checks.
+
+<!-- papercut:{"id":"a2343b10-0fdf-43ab-8901-bb71d61a14f2","timestamp":"2026-09-17T20:01:44.459Z","model":"gpt-6","author":"Choco","source":"manual"} -->
+
+## 2026-09-17T20:01:44.459Z — gpt-6 — Choco
+
+While adding the conditional move-repeat rule, apply_patch rejected a patch containing two update sections for the same file. Combining both hunks into one file section fixes it.
+
+<!-- papercut:{"id":"9ea4dc35-88fd-4c9a-80b9-8a08e07b5967","timestamp":"2026-09-17T20:28:12.161Z","model":"gpt-6","author":"Choco","source":"manual"} -->
+
+## 2026-09-17T20:28:12.161Z — gpt-6 — Choco
+
+The 100-game Jungle rerun stopped after 1,186 successful moves on a generic provider transport or response failure. The benchmark discards the underlying error type, so the saved evidence cannot distinguish a timeout from a transport or decoding failure.
+
+<!-- papercut:{"id":"a5a7629a-4c6e-413e-bf5a-7d299d12d112","timestamp":"2026-09-17T20:28:33.505Z","model":"gpt-6","author":"Choco","source":"manual"} -->
+
+## 2026-09-17T20:28:33.505Z — gpt-6 — Choco
+
+The temporary Jungle replay audit imported repository files one parent directory too high from .data/jungle-headtohead/audit-scripts. Corrected the relative imports before running the audit.
+
+<!-- papercut:{"id":"5e6fb911-adf0-46a1-878b-6276034c8dff","timestamp":"2026-09-17T20:59:09.403Z","model":"gpt-6","author":"Choco","source":"manual"} -->
+
+## 2026-09-17T20:59:09.403Z — gpt-6 — Choco
+
+Searching installed SDK errors also matched bundled source maps, flooding the output. Restrict SDK searches to the implementation file or exclude *.map.
+
+<!-- papercut:{"id":"1f9b6b06-1cc2-44d6-911f-72544e8ea8d3","timestamp":"2026-09-17T20:59:15.313Z","model":"gpt-6","author":"Choco","source":"manual"} -->
+
+## 2026-09-17T20:59:15.313Z — gpt-6 — Choco
+
+The web tool rejected the official TypeSafe SDK Markdown URL as unsafe during failure diagnosis. Used the installed SDK implementation and saved run evidence to distinguish HTTP errors from transport failures.
+
+<!-- papercut:{"id":"302109c7-cd08-40a2-bb13-c4127591b25e","timestamp":"2026-09-17T22:35:37.873Z","model":"gpt-6","author":"Choco","source":"manual"} -->
+
+## 2026-09-17T22:35:37.873Z — gpt-6 — Choco
+
+The fresh Jungle rerun after reported provider recovery stopped again, this time after 510 successful moves. The generic transport/response error still lacks a subtype; preserved the separate run and checked provider reachability without another inference request.
+
+<!-- papercut:{"id":"a4683855-b4ff-4137-9a68-1ceb89c42904","timestamp":"2026-09-17T23:17:38.360Z","model":"gpt-6","author":"Choco","source":"manual"} -->
+
+## 2026-09-17T23:17:38.360Z — gpt-6 — Choco
+
+While tracing difficulty persistence I looked for server/rooms/types.ts, but this repository keeps its room schema and types in server/rooms/model.ts. Switched to the actual schema owner.
+
+<!-- papercut:{"id":"acb4cee7-2cb5-492a-b60a-9f8739e99a73","timestamp":"2026-09-17T23:17:55.510Z","model":"gpt-6","author":"Choco","source":"manual"} -->
+
+## 2026-09-17T23:17:55.510Z — gpt-6 — Choco
+
+Two assumed filenames were absent while tracing UI and room tests: src/components/SegmentedControl.tsx and tests/rooms.test.ts. Switched to rg --files and reused the existing opponent-options styling and actual room tests.
+
+<!-- papercut:{"id":"47c3d9ea-648f-4c2d-90ef-7ba73e1c036a","timestamp":"2026-09-17T23:20:48.503Z","model":"gpt-6","author":"Choco","source":"manual"} -->
+
+## 2026-09-17T23:20:48.503Z — gpt-6 — Choco
+
+A new test passed at runtime but TypeScript required narrowing the baseline/lookahead request union before reading lookahead evidence. Added an explicit property guard; no runtime behavior changed.
+
+<!-- papercut:{"id":"3c83f15a-3c5e-4912-ac14-ad4ebbd5325a","timestamp":"2026-09-17T23:21:42.774Z","model":"gpt-6","author":"Choco","source":"manual"} -->
+
+## 2026-09-17T23:21:42.774Z — gpt-6 — Choco
+
+The accessibility linter did not recognize the difficulty radio label text nested in span/strong elements. Added explicit control IDs, label associations, and accessible label text.
+
+<!-- papercut:{"id":"af035fd7-c518-4e0e-9dbe-c7309b843c4c","timestamp":"2026-09-17T23:23:27.493Z","model":"gpt-6","author":"Choco","source":"manual"} -->
+
+## 2026-09-17T23:23:27.493Z — gpt-6 — Choco
+
+The isolated Playwright difficulty check passed and closed its browser and HTTP listener, but the Bun harness stayed alive with background handles. Added an explicit exit after successful assertions and cleanup; the production app is unchanged.

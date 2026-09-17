@@ -12,6 +12,9 @@ export const ModeSchema = Type.Union([
   Type.Literal('ai'),
   Type.Literal('local'),
 ]);
+export const AiDifficultySchema = Type.Union([Type.Literal('easy'), Type.Literal('normal')]);
+export type AiDifficulty = Static<typeof AiDifficultySchema>;
+
 export const PieceSchema = Type.Object({
   id: Type.String(),
   side: SideSchema,
@@ -100,6 +103,7 @@ export const RoomViewSchema = Type.Object({
   code: Type.String(),
   kind: GameKindSchema,
   mode: ModeSchema,
+  aiDifficulty: Type.Optional(AiDifficultySchema),
   players: Type.Array(Type.Union([PlayerSchema, Type.Null()])),
   game: GameSchema,
   side: SideSchema,
@@ -120,6 +124,7 @@ const NameSchema = Type.String({ minLength: 1, maxLength: 24, pattern: '\\S' });
 export const CreateRoomSchema = Type.Object({
   kind: GameKindSchema,
   mode: ModeSchema,
+  aiDifficulty: Type.Optional(AiDifficultySchema),
   name: NameSchema,
   flightSettings: Type.Optional(FlightSettingsSchema),
   flightPlayers: Type.Optional(Type.Array(FlightPlayerSchema, { minItems: 2, maxItems: 4 })),
