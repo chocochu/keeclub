@@ -26,7 +26,7 @@ export async function chooseMove(
   const offered = new Set(Object.keys(request.questions.move.criteria));
   const eligible = moves.filter((move) => offered.has(move.id));
   if (eligible.length === 1) return eligible[0];
-  const provider = options.provider ?? 'typesafe';
+  const provider = options.provider ?? 'openrouter';
   const client = new TypeSafeClient({
     apiKey,
     baseURL: 'https://api.typesafe.ai',

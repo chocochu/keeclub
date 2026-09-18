@@ -663,3 +663,15 @@ The official @openrouter/sdk 1.2.145 npm package references missing .js.map file
 ## 2026-09-18T14:52:17.220Z — gpt-6-astra — Choco
 
 Workers runtime rejects Request redirect: error, although Bun accepts it; OpenRouter SDK failed before fetch. Use redirect: manual to avoid following redirects in both runtimes, and test redirect responses as failures without retries.
+
+<!-- papercut:{"id":"82be54f7-cab4-4cab-90e5-5dd73ea910a7","timestamp":"2026-09-18T15:04:22.837Z","model":"gpt-6-astra","author":"Choco","source":"manual"} -->
+
+## 2026-09-18T15:04:22.837Z — gpt-6-astra — Choco
+
+While making legacy TypeSafe tests select their provider explicitly, argument insertion encountered trailing commas and produced two double commas. Fixed the insertion output before running checks.
+
+<!-- papercut:{"id":"27a13fce-3ed6-4b50-baa8-7ebcace87f82","timestamp":"2026-09-18T15:04:42.071Z","model":"gpt-6-astra","author":"Choco","source":"manual"} -->
+
+## 2026-09-18T15:04:42.071Z — gpt-6-astra — Choco
+
+The provider-default test update introduced an unnecessary spread of an object literal; the required lint check caught it. Simplified the test options and restarted the full check.

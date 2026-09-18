@@ -12,12 +12,12 @@ const options = { provider: 'openrouter' } as const;
 
 test('provider selection keeps keys and model namespaces separate', () => {
   const env = { TYPESAFE_API_KEY: 'direct', OPENROUTER_API_KEY: 'router' };
-  expect(resolveAiConfig(env)).toEqual({
+  expect(resolveAiConfig({ ...env, AI_PROVIDER: 'typesafe' })).toEqual({
     provider: 'typesafe',
     apiKey: 'direct',
     model: 'jev-latest',
   });
-  expect(resolveAiConfig({ ...env, AI_PROVIDER: 'openrouter' })).toEqual({
+  expect(resolveAiConfig(env)).toEqual({
     provider: 'openrouter',
     apiKey: 'router',
     model,

@@ -23,6 +23,7 @@ test.each([false, true])('usage is logged even when a choice is rejected: %s', a
           privateDiagnostics: 'do-not-log',
         }),
       { roomCode: 'ABC123', gameId: 'match-1' },
+      { provider: 'typesafe' },
     );
     if (illegal) await expect(result).rejects.toThrow('有效步法');
     else await result;
@@ -50,11 +51,17 @@ test.each([undefined, -1, 1.5, '1234', 0])(
     try {
       const game = createGame('jungle');
       const choice = legalMoves(game)[0];
-      const result = await chooseMove(game, 'key', 'jev-latest', async () =>
-        Response.json({
-          answers: { move: { type: 'choice', choice: choice.id } },
-          usage: inputTokens === undefined ? undefined : { input_tokens: inputTokens },
-        }),
+      const result = await chooseMove(
+        game,
+        'key',
+        'jev-latest',
+        async () =>
+          Response.json({
+            answers: { move: { type: 'choice', choice: choice.id } },
+            usage: inputTokens === undefined ? undefined : { input_tokens: inputTokens },
+          }),
+        undefined,
+        { provider: 'typesafe' },
       );
       expect(result).toEqual(choice);
       expect(JSON.parse(String(log.mock.calls[0][0])).input_tokens).toBe(
@@ -71,9 +78,16 @@ test('forced moves do not emit a provider usage event', async () => {
   try {
     const game = createGame('flight');
     game.planes[0] = [0, -1, -1, -1];
-    await chooseMove(rollDice(game, 1), 'key', 'jev-latest', async () => {
-      throw new Error('Unexpected API call');
-    });
+    await chooseMove(
+      rollDice(game, 1),
+      'key',
+      'jev-latest',
+      async () => {
+        throw new Error('Unexpected API call');
+      },
+      undefined,
+      { provider: 'typesafe' },
+    );
     expect(log).not.toHaveBeenCalled();
   } finally {
     log.mockRestore();

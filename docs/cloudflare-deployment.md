@@ -79,8 +79,8 @@ Worker rollback does not roll back Durable Object data. Version 1 snapshots must
 
 ## OpenRouter Jev
 
-To select OpenRouter, change `AI_PROVIDER` to `openrouter` in the target environment's
-`wrangler.jsonc` vars and keep `OPENROUTER_MODEL=typesafe/jev-1.13`. Set the secret
+Production and staging configuration default to `AI_PROVIDER=openrouter` and
+`OPENROUTER_MODEL=typesafe/jev-1.13`. Set the secret
 with `bunx wrangler secret put OPENROUTER_API_KEY --env staging` (or `--env ""` for
 production), then follow the normal check and deployment steps. Do not pass keys
 as command arguments. Local Wrangler uses the same values in `.dev.vars`.

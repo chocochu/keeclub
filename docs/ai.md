@@ -3,12 +3,13 @@
 Set the following in your local `.env`, then restart `bun run dev`:
 
 ```dotenv
-TYPESAFE_API_KEY=your_key_here
-TYPESAFE_MODEL=jev-latest
+AI_PROVIDER=openrouter
+OPENROUTER_API_KEY=your_key_here
+OPENROUTER_MODEL=typesafe/jev-1.13
 ```
 
-For OpenRouter credits, use `AI_PROVIDER=openrouter`, `OPENROUTER_API_KEY`, and
-`OPENROUTER_MODEL=typesafe/jev-1.13` instead. The default provider is `typesafe`;
+The default provider is `openrouter`. For direct TypeSafe credits, set
+`AI_PROVIDER=typesafe`, `TYPESAFE_API_KEY`, and optionally `TYPESAFE_MODEL=jev-latest`;
 only the selected provider's key and model are used, with no cross-provider fallback.
 The official `@openrouter/sdk` adapter uses `alpha.decisions.create()` and sends the same typed state/questions to
 [`POST /api/alpha/decisions`](https://openrouter.ai/docs/api/api-reference/alphadecisions/submit-a-decisions-questions-and-answers-request),

@@ -4,7 +4,7 @@ export default defineConfig({
   plugins: [
     cloudflareTest({
       wrangler: { configPath: './wrangler.jsonc' },
-      miniflare: { bindings: { TYPESAFE_API_KEY: 'test-key' } },
+      miniflare: { bindings: { AI_PROVIDER: 'typesafe', TYPESAFE_API_KEY: 'test-key' } },
     }),
   ],
   test: { setupFiles: ['./worker-tests/setup.ts'], include: ['worker-tests/**/*.test.ts'] },

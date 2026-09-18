@@ -16,7 +16,7 @@
     { "name": "API_LIMITER", "namespace_id": "1001", "simple": { "limit": 300, "period": 60 } },
   ],
   "vars": {
-    "AI_PROVIDER": "typesafe",
+    "AI_PROVIDER": "openrouter",
     "TYPESAFE_MODEL": "jev-latest",
     "OPENROUTER_MODEL": "typesafe/jev-1.13",
   },
@@ -29,7 +29,7 @@
         { "name": "API_LIMITER", "namespace_id": "1002", "simple": { "limit": 300, "period": 60 } },
       ],
       "vars": {
-        "AI_PROVIDER": "typesafe",
+        "AI_PROVIDER": "openrouter",
         "TYPESAFE_MODEL": "jev-latest",
         "OPENROUTER_MODEL": "typesafe/jev-1.13",
       },

@@ -70,7 +70,7 @@ test('production transport defaults to lookahead and explicitly selects Easy', a
         });
       },
       undefined,
-      { difficulty },
+      { difficulty, provider: 'typesafe' },
     );
   }
 });

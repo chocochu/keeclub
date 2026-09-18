@@ -115,9 +115,16 @@ test('code offers immediate Jungle wins before strategic alternatives', async ()
     ]);
     expect(
       (
-        await chooseMove(game, '', 'jev-latest', async () => {
-          throw new Error('Must not call API');
-        })
+        await chooseMove(
+          game,
+          '',
+          'jev-latest',
+          async () => {
+            throw new Error('Must not call API');
+          },
+          undefined,
+          { provider: 'typesafe' },
+        )
       ).id,
     ).toBe(expected);
   }
@@ -131,10 +138,16 @@ test('Jungle avoids immediate losses and rejects a legal but excluded provider c
     'attacker:3,8',
   );
   await expect(
-    chooseMove(game, 'key', 'jev-latest', async () =>
-      Response.json({
-        answers: { move: { type: 'choice', choice: 'dog:2,6' } },
-      }),
+    chooseMove(
+      game,
+      'key',
+      'jev-latest',
+      async () =>
+        Response.json({
+          answers: { move: { type: 'choice', choice: 'dog:2,6' } },
+        }),
+      undefined,
+      { provider: 'typesafe' },
     ),
   ).rejects.toThrow('有效步法');
 });
@@ -235,5 +248,8 @@ test('Aeroplane immediate win is selected and has no hypothetical next rolls', a
   const pending = rollDice(game, 1);
   const candidate = flightState(pending).candidates['plane-0'];
   expect(candidate).toMatchObject({ winner: 0, nextPlayer: null, extraRoll: false, nextRolls: [] });
-  expect((await chooseMove(pending, '', 'jev-latest')).id).toBe('plane-0');
+  expect(
+    (await chooseMove(pending, '', 'jev-latest', undefined, undefined, { provider: 'typesafe' }))
+      .id,
+  ).toBe('plane-0');
 });

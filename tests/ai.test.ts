@@ -33,7 +33,11 @@ for (const kind of ['jungle', 'flight'] as const) {
         usage: { input_tokens: 100, output_tokens: 20 },
       });
     };
-    expect(await chooseMove(game, 'test-secret', 'jev-latest', fetcher)).toEqual(move);
+    expect(
+      await chooseMove(game, 'test-secret', 'jev-latest', fetcher, undefined, {
+        provider: 'typesafe',
+      }),
+    ).toEqual(move);
     expect(game).toEqual(before);
     expect(request).toMatchObject({
       model: 'jev-latest',
@@ -67,16 +71,20 @@ test.each([
   { answers: { move: { type: 'choice', choice: 'invented' } } },
 ])('malformed or illegal AI answers never become game moves: %j', async (body) => {
   const fetcher: Fetch = async () => Response.json(body);
-  await expect(chooseMove(createGame('jungle'), 'key', 'jev-latest', fetcher)).rejects.toThrow(
-    '有效步法',
-  );
+  await expect(
+    chooseMove(createGame('jungle'), 'key', 'jev-latest', fetcher, undefined, {
+      provider: 'typesafe',
+    }),
+  ).rejects.toThrow('有效步法');
 });
 
 test('non-JSON provider responses are rejected', async () => {
   const fetcher: Fetch = async () => new Response('<html>upstream failure</html>');
-  await expect(chooseMove(createGame('jungle'), 'key', 'jev-latest', fetcher)).rejects.toThrow(
-    '有效步法',
-  );
+  await expect(
+    chooseMove(createGame('jungle'), 'key', 'jev-latest', fetcher, undefined, {
+      provider: 'typesafe',
+    }),
+  ).rejects.toThrow('有效步法');
 });
 
 test.each([
@@ -98,9 +106,11 @@ test.each([
         { status, headers: { 'retry-after-ms': '1' } },
       );
     };
-    await expect(chooseMove(createGame('jungle'), 'key', 'jev-latest', fetcher)).rejects.toThrow(
-      message,
-    );
+    await expect(
+      chooseMove(createGame('jungle'), 'key', 'jev-latest', fetcher, undefined, {
+        provider: 'typesafe',
+      }),
+    ).rejects.toThrow(message);
     expect(calls).toBe(1);
   },
 );
@@ -111,9 +121,11 @@ test('SDK connection failures have a safe retry message and no automatic retries
     calls++;
     throw new TypeError('private network details');
   };
-  await expect(chooseMove(createGame('jungle'), 'key', 'jev-latest', fetcher)).rejects.toThrow(
-    'AI 連線逾時或網絡中斷，棋局已保留，請重試。',
-  );
+  await expect(
+    chooseMove(createGame('jungle'), 'key', 'jev-latest', fetcher, undefined, {
+      provider: 'typesafe',
+    }),
+  ).rejects.toThrow('AI 連線逾時或網絡中斷，棋局已保留，請重試。');
   expect(calls).toBe(1);
 });
 
@@ -124,10 +136,14 @@ test('forced moves and positions without legal moves do not call TypeSafe', asyn
     throw new Error('Unexpected inference');
   };
   const game = createGame('flight');
-  await expect(chooseMove(game, '', 'jev-latest', fetcher)).rejects.toThrow('沒有合法步法');
+  await expect(
+    chooseMove(game, '', 'jev-latest', fetcher, undefined, { provider: 'typesafe' }),
+  ).rejects.toThrow('沒有合法步法');
   game.planes[0] = [0, -1, -1, -1];
   const rolled = rollDice(game, 1);
-  expect(await chooseMove(rolled, '', 'jev-latest', fetcher)).toEqual(legalMoves(rolled)[0]);
+  expect(
+    await chooseMove(rolled, '', 'jev-latest', fetcher, undefined, { provider: 'typesafe' }),
+  ).toEqual(legalMoves(rolled)[0]);
   expect(calls).toBe(0);
 });
 
@@ -146,9 +162,11 @@ test('SDK aborts a stalled response after 20 seconds without retrying', async ()
     );
   };
   const started = performance.now();
-  await expect(chooseMove(createGame('jungle'), 'key', 'jev-latest', fetcher)).rejects.toThrow(
-    'AI 連線逾時或網絡中斷，棋局已保留，請重試。',
-  );
+  await expect(
+    chooseMove(createGame('jungle'), 'key', 'jev-latest', fetcher, undefined, {
+      provider: 'typesafe',
+    }),
+  ).rejects.toThrow('AI 連線逾時或網絡中斷，棋局已保留，請重試。');
   expect(performance.now() - started).toBeGreaterThanOrEqual(19_900);
   expect(calls).toBe(1);
 }, 25_000);

@@ -41,9 +41,9 @@ Copy the example only if you do not already have a local `.env`:
 cp -n .env.example .env
 ```
 
-Set `TYPESAFE_API_KEY` in `.env`, then restart the server. The default model is `jev-latest`. Keep the key server-side; never prefix it with `VITE_`.
+Set `OPENROUTER_API_KEY` in `.env`, then restart the server. OpenRouter is the default provider, using `typesafe/jev-1.13`. Keep the key server-side; never prefix it with `VITE_`.
 
-To use your OpenRouter credits instead, set these server-side variables:
+The default server-side configuration is:
 
 ```dotenv
 AI_PROVIDER=openrouter
@@ -51,7 +51,7 @@ OPENROUTER_API_KEY=your_key_here
 OPENROUTER_MODEL=typesafe/jev-1.13
 ```
 
-OpenRouter uses its Decisions API. The default provider remains `typesafe`; provider selection is explicit and never falls back to another account.
+OpenRouter uses its Decisions API. The default provider is `openrouter`. To use TypeSafe directly, set `AI_PROVIDER=typesafe` and `TYPESAFE_API_KEY` (model defaults to `jev-latest`). There is no automatic fallback between accounts.
 
 The engine supplies legal moves to Jev and validates its choice. Failed requests leave the turn available for manual retry. AI strength has not been benchmarked. [AI integration](docs/ai.md) covers selection policy, error handling, and usage logs.
 
@@ -100,7 +100,7 @@ See [Cloudflare deployment](docs/cloudflare-deployment.md) for authentication, s
 
 | Variable             | Default               | Purpose                                                                                                  |
 | -------------------- | --------------------- | -------------------------------------------------------------------------------------------------------- |
-| `AI_PROVIDER`        | `typesafe`            | Select `typesafe` or `openrouter`; no automatic fallback.                                                |
+| `AI_PROVIDER`        | `openrouter`          | Select `typesafe` or `openrouter`; no automatic fallback.                                                |
 | `OPENROUTER_API_KEY` | Unset                 | Enables AI when OpenRouter is selected.                                                                  |
 | `OPENROUTER_MODEL`   | `typesafe/jev-1.13`   | OpenRouter Decisions model ID.                                                                           |
 | `TYPESAFE_API_KEY`   | Unset                 | Enables AI; optional for human-only play.                                                                |

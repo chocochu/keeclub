@@ -14,7 +14,7 @@ export function resolveAiConfig(env: AiEnvironment): {
   apiKey: string;
   model: string;
 } {
-  const provider = env.AI_PROVIDER || 'typesafe';
+  const provider = env.AI_PROVIDER || 'openrouter';
   if (provider !== 'typesafe' && provider !== 'openrouter')
     throw new Error('AI_PROVIDER must be typesafe or openrouter');
   return {
