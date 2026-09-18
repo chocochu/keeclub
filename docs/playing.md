@@ -8,6 +8,8 @@
 
 Aeroplane uses the traditional board on every screen size. On mobile/tablet, opponent seats share one compact row above the board.
 
+Both games have sound effects for moves, captures, and results. Aeroplane's dice, steps, jumps, returns, and finishes follow the board animation. Use the speaker button in the header to toggle **音效**; your choice is saved in this browser. Sounds work offline, begin after your first interaction, and stay silent while the tab is hidden. Reopening a saved game does not replay its old sounds.
+
 New **human-only same-device games** run entirely in the browser using the shared rules engine, with no room API calls or WebSocket. They save to browser storage after each action and reopen at `/local/<id>` or through **返回上一局**. Once the app is loaded, play continues without a network connection. The production PWA also caches the app shell for offline reopening after the first successful online load. These saves belong to this browser and origin, cannot be shared as online rooms, and are lost when browser storage is cleared. If persistence is blocked or full, the current page can still play in memory, but a reload may lose progress.
 
 Online games, same-device games with AI, and previously created server rooms remain server-authoritative for turns, moves, dice, captures, and wins. Seat credentials are random, stored in the browser, and hashed on disk. Reloading or reconnecting restores your seat. Keep the same browser and origin; switching from localhost to a LAN URL uses a different browser storage origin. All friends must agree to a rematch after the game ends; the room settings carry over.

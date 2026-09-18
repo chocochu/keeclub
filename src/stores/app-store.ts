@@ -32,6 +32,8 @@ interface AppState {
   resumeCode: string;
   connection: ConnectionStatus;
   rules: boolean;
+  soundEnabled: boolean;
+  toggleSound: () => void;
   notice: string;
   error: string;
   setKind: (kind: GameKind) => void;
@@ -77,6 +79,8 @@ export const useAppStore = create<AppState>()(
       resumeCode: storage.getItem('kee:last') ?? '',
       connection: 'connecting',
       rules: false,
+      soundEnabled: true,
+      toggleSound: () => set((state) => ({ soundEnabled: !state.soundEnabled })),
       notice: '',
       error: '',
       setKind: (kind) => set({ kind }),
@@ -137,6 +141,7 @@ export const useAppStore = create<AppState>()(
         flightPlayers,
         jungleSettings,
         aiDifficulty,
+        soundEnabled,
       }) => ({
         kind,
         mode,
@@ -145,6 +150,7 @@ export const useAppStore = create<AppState>()(
         flightPlayers,
         jungleSettings,
         aiDifficulty,
+        soundEnabled,
       }),
     },
   ),

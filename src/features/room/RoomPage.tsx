@@ -12,10 +12,12 @@ import { useRoomAction } from './use-room-action';
 import { useFlightPlayback } from './use-flight-playback';
 import { WinConfetti } from './WinConfetti';
 import { RulesPanel } from '../../components/RulesPanel';
+import { useRoomSound } from './use-room-sound';
 
 export function RoomPage({ room, credentials }: { room: RoomView; credentials: Credentials }) {
   const [keyboardAction, setKeyboardAction] = useState(false);
   const playback = useFlightPlayback(room, credentials, keyboardAction);
+  useRoomSound(playback);
   const displayRoom = playback.room;
   const connected = useAppStore((s) => s.connection === 'connected');
   const rules = useAppStore((s) => s.rules);

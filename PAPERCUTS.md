@@ -675,3 +675,39 @@ While making legacy TypeSafe tests select their provider explicitly, argument in
 ## 2026-09-18T15:04:42.071Z — gpt-6-astra — Choco
 
 The provider-default test update introduced an unnecessary spread of an object literal; the required lint check caught it. Simplified the test options and restarted the full check.
+
+<!-- papercut:{"id":"74d246a8-a65c-4624-8754-8b5c6af14a98","timestamp":"2026-09-18T15:44:45.111Z","model":"gpt-6-astra","author":"Choco","source":"manual"} -->
+
+## 2026-09-18T15:44:45.111Z — gpt-6-astra — Choco
+
+While tracing a deployed AI billing error, a guessed server/http/routes.ts path did not exist; used the live /api/config endpoint and Wrangler version metadata instead.
+
+<!-- papercut:{"id":"e5a79dba-8a9d-4c8f-a822-7c84ff549164","timestamp":"2026-09-18T15:45:23.179Z","model":"gpt-6-astra","author":"Choco","source":"manual"} -->
+
+## 2026-09-18T15:45:23.179Z — gpt-6-astra — Choco
+
+During production verification, a second guessed HTTP route filename was absent and a sed range was mistyped. Located the actual routes through rg and read server/rooms/routes.ts.
+
+<!-- papercut:{"id":"3b80291b-505b-43ca-8478-55d99a65a4f6","timestamp":"2026-09-18T16:02:40.512Z","model":"gpt-6-astra","author":"Choco","source":"manual"} -->
+
+## 2026-09-18T16:02:40.512Z — gpt-6-astra — Choco
+
+While adding game sound effects, a multi-file patch failed because its docs/playing.md heading context was a placeholder. Read the actual heading and reapply the patch with exact context.
+
+<!-- papercut:{"id":"559943a5-a315-46fa-9ddf-74b4836c2595","timestamp":"2026-09-18T16:03:31.420Z","model":"gpt-6-astra","author":"Choco","source":"manual"} -->
+
+## 2026-09-18T16:03:31.420Z — gpt-6-astra — Choco
+
+The required bun run check stopped at formatting in the already-modified PAPERCUTS.md log. Continue the remaining gates separately to verify the sound changes without rewriting existing log entries.
+
+<!-- papercut:{"id":"d44f2d12-d7cf-46aa-8e24-a3bf8b8f518b","timestamp":"2026-09-18T16:04:32.474Z","model":"gpt-6-astra","author":"Choco","source":"manual"} -->
+
+## 2026-09-18T16:04:32.474Z — gpt-6-astra — Choco
+
+A read of the Worker check log ran before the preceding test and typecheck commands had created it. Wait for the running verification process before reading its redirected log.
+
+<!-- papercut:{"id":"60858550-d975-4ef0-85e5-156dd5cb552e","timestamp":"2026-09-18T16:05:09.815Z","model":"gpt-6-astra","author":"Choco","source":"manual"} -->
+
+## 2026-09-18T16:05:09.815Z — gpt-6-astra — Choco
+
+Worker verification passed all 19 tests but emitted many missing source-map warnings from the installed @openrouter/sdk package. The warnings made the successful test output harder to scan; the full output is preserved in .data/sound-worker-check.log.

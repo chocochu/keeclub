@@ -1266,6 +1266,9 @@ input:focus {
   .nav-link {
     font-size: 12px;
   }
+  .sound-toggle span {
+    display: none;
+  }
   .brand-mark {
     width: 38px;
     height: 40px;

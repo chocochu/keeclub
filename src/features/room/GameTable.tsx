@@ -5,6 +5,7 @@ import { ANIMALS, SIDE_NAMES } from '../../../shared/game';
 import type { Move, RoomView, RoomCommand } from '../../../shared/contracts';
 import type { FlightScene } from './flight-playback';
 import { FlightBoard, JungleBoard } from '../../Boards';
+import { playSound } from '../../lib/sound';
 export function GameTable({
   room,
   moves,
@@ -60,7 +61,10 @@ export function GameTable({
               game={game}
               moves={moves}
               selected={selected}
-              onSelect={(id) => setSelection({ id, revision: room.revision })}
+              onSelect={(id) => {
+                if (id && id !== selected) playSound('select');
+                setSelection({ id, revision: room.revision });
+              }}
               onMove={(id) => void action({ type: 'move', id })}
             />
           ) : (

@@ -6,8 +6,10 @@ import { PwaControls } from './components/PwaControls';
 import { Lobby } from './features/lobby/Lobby';
 import { RoomRoute } from './features/room/RoomRoute';
 import { useAppStore } from './stores/app-store';
+import { listenForSound } from './lib/sound';
 
 export default function App() {
+  useEffect(listenForSound, []);
   const credentials = useAppStore((s) => s.credentials),
     rules = useAppStore((s) => s.rules),
     kind = useAppStore((s) => s.kind),

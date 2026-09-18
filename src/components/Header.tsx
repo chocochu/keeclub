@@ -1,10 +1,11 @@
-import { BookOpen } from 'lucide-react';
+import { BookOpen, Volume2, VolumeX } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import type { Credentials } from '../../shared/contracts';
 import { GAME_INFO } from '../lib/game-info';
 import { roomQuery } from '../lib/query-client';
 import { useAppStore } from '../stores/app-store';
 import { isBrowserRoom } from '../lib/room-location';
+import { playSound, unlockSound } from '../lib/sound';
 
 function RoomHeading({ credentials }: { credentials: Credentials }) {
   const { data: room } = useQuery(roomQuery(credentials));
@@ -27,6 +28,8 @@ function RoomHeading({ credentials }: { credentials: Credentials }) {
 }
 
 export function Header() {
+  const soundEnabled = useAppStore((s) => s.soundEnabled);
+  const toggleSound = useAppStore((s) => s.toggleSound);
   const home = useAppStore((s) => s.home),
     credentials = useAppStore((s) => s.credentials),
     rules = useAppStore((s) => s.rules),
@@ -41,6 +44,23 @@ export function Header() {
       </button>
       {credentials && <RoomHeading credentials={credentials} />}
       <nav>
+        <button
+          className="nav-link sound-toggle"
+          type="button"
+          aria-label="遊戲音效"
+          aria-pressed={soundEnabled}
+          title={soundEnabled ? '關閉音效' : '開啟音效'}
+          onClick={() => {
+            toggleSound();
+            if (!soundEnabled) {
+              unlockSound();
+              playSound('select');
+            }
+          }}
+        >
+          {soundEnabled ? <Volume2 size={17} /> : <VolumeX size={17} />}
+          <span>{soundEnabled ? '音效開' : '音效關'}</span>
+        </button>
         <button className={!rules ? 'nav-link current' : 'nav-link'} onClick={home}>
           遊戲大廳
         </button>
