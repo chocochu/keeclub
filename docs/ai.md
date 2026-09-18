@@ -1,4 +1,4 @@
-# TypeSafe AI
+# Jev AI: TypeSafe or OpenRouter
 
 Set the following in your local `.env`, then restart `bun run dev`:
 
@@ -6,6 +6,15 @@ Set the following in your local `.env`, then restart `bun run dev`:
 TYPESAFE_API_KEY=your_key_here
 TYPESAFE_MODEL=jev-latest
 ```
+
+For OpenRouter credits, use `AI_PROVIDER=openrouter`, `OPENROUTER_API_KEY`, and
+`OPENROUTER_MODEL=typesafe/jev-1.13` instead. The default provider is `typesafe`;
+only the selected provider's key and model are used, with no cross-provider fallback.
+The official `@openrouter/sdk` adapter uses `alpha.decisions.create()` and sends the same typed state/questions to
+[`POST /api/alpha/decisions`](https://openrouter.ai/docs/api/api-reference/alphadecisions/submit-a-decisions-questions-and-answers-request),
+not chat completions. This endpoint is currently alpha. It preserves the 20-second
+full-response deadline, no automatic retries, offered-move validation, and manual retry flow.
+HTTP 402 produces an explicit insufficient-credit message for either provider.
 
 The API key stays on the Elysia server, never in the client bundle or room updates. Do not use a `VITE_` prefix for it. The `.env` file is gitignored.
 
@@ -17,7 +26,7 @@ The engine validates every selected move, with TypeBox checking the response at 
 
 Without a key, friend rooms and same-device games work. AI creation shows a setup message.
 
-Each parsed TypeSafe response writes a JSON `typesafe.usage` event to server stdout with
+Each parsed response writes a JSON `typesafe.usage` or `openrouter.usage` event to server stdout with
 `input_tokens`, the returned `model`, `room_code`, `game_id`, `game_kind`, `ply`, and a timestamp.
 Sum `input_tokens` by `game_id` to measure each match; the ID survives room recovery and changes
 on rematch. These IDs and usage stay server-side. Logs contain no API keys, seat tokens, player

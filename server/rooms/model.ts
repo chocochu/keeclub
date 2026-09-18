@@ -1,3 +1,4 @@
+import type { AiProvider } from '../ai-config';
 import { Type, type Static } from '@sinclair/typebox';
 import {
   AiDifficultySchema,
@@ -33,6 +34,7 @@ export type Room = Static<typeof StoredRoomSchema>;
 export interface RoomOptions {
   dataFile?: string;
   apiKey?: string;
+  provider?: AiProvider;
   model?: string;
   choose?: typeof chooseMove;
   dice?: () => number;

@@ -1,3 +1,4 @@
+import { resolveAiConfig } from '../ai-config';
 import { DurableObject } from 'cloudflare:workers';
 import { randomInt, randomUUID } from 'node:crypto';
 import { Type, type Static } from '@sinclair/typebox';
@@ -165,7 +166,7 @@ export class GameRoom extends DurableObject<Env> {
         if (!Value.Check(RoomCodeSchema, code) || !Value.Check(CreateRoomSchema, input))
           throw new HttpError(400, '資料格式不正確。');
         if (this.load()) throw new HttpError(409, '房間碼已使用。');
-        const { room, token } = createRoom(code, input, !!this.env.TYPESAFE_API_KEY);
+        const { room, token } = createRoom(code, input, !!resolveAiConfig(this.env).apiKey);
         const saved: Envelope = {
           schemaVersion: 1,
           incarnationId: randomUUID(),
@@ -341,17 +342,18 @@ export class GameRoom extends DurableObject<Env> {
     let move: Awaited<ReturnType<typeof chooseMove>> | undefined;
     let failure: string | undefined;
     try {
+      const ai = resolveAiConfig(this.env);
       move = await chooseMove(
         attempt.saved.room.game,
-        this.env.TYPESAFE_API_KEY ?? '',
-        this.env.TYPESAFE_MODEL,
+        ai.apiKey,
+        ai.model,
         fetch,
         {
           roomCode: attempt.saved.room.code,
           gameId: attempt.work.gameId,
           attemptId: attempt.work.attemptId,
         },
-        roomAiOptions(attempt.saved.room),
+        { ...roomAiOptions(attempt.saved.room), provider: ai.provider },
       );
     } catch (error) {
       failure =

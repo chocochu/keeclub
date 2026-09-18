@@ -1,3 +1,4 @@
+import type { AiProvider } from '../ai-config';
 import { randomUUID } from 'node:crypto';
 import { legalMoves, rollDice } from '../../shared/game';
 import { applyAiMove, roomAiOptions } from './ai-settings';
@@ -7,6 +8,7 @@ import { isAiPlayer } from '../../shared/players';
 
 interface AiTurnOptions {
   apiKey: string;
+  provider?: AiProvider;
   model: string;
   dice: () => number;
   choose: typeof chooseMove;
@@ -42,7 +44,7 @@ export async function playAiTurn(room: Room, options: AiTurnOptions) {
         model,
         undefined,
         usageContext,
-        roomAiOptions(room),
+        { ...roomAiOptions(room), provider: options.provider },
       );
       if (room.game.winner !== null || !isAiPlayer(room, room.game.turn)) break;
       // Another human may withdraw while this choice is pending. Reconsider the new board.

@@ -2,8 +2,10 @@ import type { AiDifficulty, Game, Side } from '../shared/contracts';
 import { buildMoveRequest } from './ai-state';
 import { buildJungleAnalysis } from './ai-lookahead';
 import { describeAiMovePolicy, restrictedMoves } from './ai-move-policy';
+import type { AiProvider } from './ai-config';
 
 export type AiOptions = {
+  provider?: AiProvider;
   difficulty?: AiDifficulty;
   moveCounts?: Readonly<Record<string, number>>;
   aiSides?: readonly Side[];

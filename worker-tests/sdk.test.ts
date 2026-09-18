@@ -37,3 +37,60 @@ test('the installed SDK aborts a stalled response body in workerd without retrie
   expect(performance.now() - started).toBeGreaterThanOrEqual(19_900);
   expect(calls).toBe(1);
 }, 25_000);
+
+test('OpenRouter Decisions works in workerd and preserves the fetch receiver', async () => {
+  const game = createGame('jungle');
+  const move = await chooseMove(
+    game,
+    'router-key',
+    'typesafe/jev-1.13',
+    async function (this: unknown, url, init) {
+      expect(this === undefined || this === globalThis).toBe(true);
+      const sent = new Request(url, init as RequestInit);
+      expect(sent.url).toBe('https://openrouter.ai/api/alpha/decisions');
+      expect(sent.headers.get('Authorization')).toBe('Bearer router-key');
+      const request = JSON.parse(await sent.text());
+      return Response.json({
+        model: 'typesafe/jev-1.13',
+        usage: { input_tokens: 42, output_tokens: 0 },
+        answers: {
+          move: { type: 'choice', choice: Object.keys(request.questions.move.criteria)[0] },
+        },
+      });
+    },
+    undefined,
+    { provider: 'openrouter' },
+  );
+  expect(move.id).toBeTruthy();
+});
+
+test('OpenRouter aborts stalled body delivery in workerd without retries', async () => {
+  let calls = 0;
+  const started = performance.now();
+  await expect(
+    chooseMove(
+      createGame('jungle'),
+      'router-key',
+      'typesafe/jev-1.13',
+      async (url, init) => {
+        const sent = new Request(url, init as RequestInit);
+        calls++;
+        return new Response(
+          new ReadableStream({
+            start(controller) {
+              sent.signal.addEventListener(
+                'abort',
+                () => controller.error(new Error('private abort details')),
+                { once: true },
+              );
+            },
+          }),
+        );
+      },
+      undefined,
+      { provider: 'openrouter' },
+    ),
+  ).rejects.toThrow('網絡中斷');
+  expect(performance.now() - started).toBeGreaterThanOrEqual(19_900);
+  expect(calls).toBe(1);
+}, 25_000);

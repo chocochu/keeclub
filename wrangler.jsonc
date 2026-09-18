@@ -15,7 +15,11 @@
   "ratelimits": [
     { "name": "API_LIMITER", "namespace_id": "1001", "simple": { "limit": 300, "period": 60 } },
   ],
-  "vars": { "TYPESAFE_MODEL": "jev-latest" },
+  "vars": {
+    "AI_PROVIDER": "typesafe",
+    "TYPESAFE_MODEL": "jev-latest",
+    "OPENROUTER_MODEL": "typesafe/jev-1.13",
+  },
   "observability": { "enabled": true, "head_sampling_rate": 1 },
   "env": {
     "staging": {
@@ -24,7 +28,11 @@
       "ratelimits": [
         { "name": "API_LIMITER", "namespace_id": "1002", "simple": { "limit": 300, "period": 60 } },
       ],
-      "vars": { "TYPESAFE_MODEL": "jev-latest" },
+      "vars": {
+        "AI_PROVIDER": "typesafe",
+        "TYPESAFE_MODEL": "jev-latest",
+        "OPENROUTER_MODEL": "typesafe/jev-1.13",
+      },
     },
   },
 }

@@ -1,3 +1,4 @@
+import { resolveAiConfig } from '../ai-config';
 import { env } from 'cloudflare:workers';
 import { randomInt } from 'node:crypto';
 import type { CreateRoom, RoomAction } from '../../shared/contracts';
@@ -10,7 +11,8 @@ function unwrap<T>(result: RpcResult<T>): T {
 }
 export const gateway = {
   get config() {
-    return { aiAvailable: !!env.TYPESAFE_API_KEY, model: env.TYPESAFE_MODEL };
+    const ai = resolveAiConfig(env);
+    return { aiAvailable: !!ai.apiKey, model: ai.model };
   },
   async create(input: CreateRoom) {
     const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';

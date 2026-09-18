@@ -43,7 +43,17 @@ cp -n .env.example .env
 
 Set `TYPESAFE_API_KEY` in `.env`, then restart the server. The default model is `jev-latest`. Keep the key server-side; never prefix it with `VITE_`.
 
-The engine supplies legal moves to the TypeSafe SDK and validates its choice. Failed requests leave the turn available for manual retry. AI strength has not been benchmarked. [AI integration](docs/ai.md) covers selection policy, error handling, and usage logs.
+To use your OpenRouter credits instead, set these server-side variables:
+
+```dotenv
+AI_PROVIDER=openrouter
+OPENROUTER_API_KEY=your_key_here
+OPENROUTER_MODEL=typesafe/jev-1.13
+```
+
+OpenRouter uses its Decisions API. The default provider remains `typesafe`; provider selection is explicit and never falls back to another account.
+
+The engine supplies legal moves to Jev and validates its choice. Failed requests leave the turn available for manual retry. AI strength has not been benchmarked. [AI integration](docs/ai.md) covers selection policy, error handling, and usage logs.
 
 ## Development
 
@@ -88,13 +98,16 @@ See [Cloudflare deployment](docs/cloudflare-deployment.md) for authentication, s
 
 ## Configuration
 
-| Variable           | Default               | Purpose                                                                                                  |
-| ------------------ | --------------------- | -------------------------------------------------------------------------------------------------------- |
-| `TYPESAFE_API_KEY` | Unset                 | Enables AI; optional for human-only play.                                                                |
-| `TYPESAFE_MODEL`   | `jev-latest`          | TypeSafe model; Cloudflare sets it in `wrangler.jsonc`.                                                  |
-| `PORT`             | `3000`                | Bun production port.                                                                                     |
-| `API_PORT`         | `3001` in development | Overrides the Bun listening port, including production. Update the Vite proxy if changed in development. |
-| `ROOM_DATA_FILE`   | `.data/rooms.json`    | Bun storage base path; active snapshots live in the directory with `.d` appended.                        |
+| Variable             | Default               | Purpose                                                                                                  |
+| -------------------- | --------------------- | -------------------------------------------------------------------------------------------------------- |
+| `AI_PROVIDER`        | `typesafe`            | Select `typesafe` or `openrouter`; no automatic fallback.                                                |
+| `OPENROUTER_API_KEY` | Unset                 | Enables AI when OpenRouter is selected.                                                                  |
+| `OPENROUTER_MODEL`   | `typesafe/jev-1.13`   | OpenRouter Decisions model ID.                                                                           |
+| `TYPESAFE_API_KEY`   | Unset                 | Enables AI; optional for human-only play.                                                                |
+| `TYPESAFE_MODEL`     | `jev-latest`          | TypeSafe model; Cloudflare sets it in `wrangler.jsonc`.                                                  |
+| `PORT`               | `3000`                | Bun production port.                                                                                     |
+| `API_PORT`           | `3001` in development | Overrides the Bun listening port, including production. Update the Vite proxy if changed in development. |
+| `ROOM_DATA_FILE`     | `.data/rooms.json`    | Bun storage base path; active snapshots live in the directory with `.d` appended.                        |
 
 Bun reads local configuration from `.env`. Wrangler uses `.dev.vars` for local secrets and Worker secrets in deployment. Local configuration, room data, and build output are excluded from Git and Docker's build context.
 

@@ -80,6 +80,7 @@ test('non-JSON provider responses are rejected', async () => {
 });
 
 test.each([
+  [402, 'AI 服務額度不足，請聯絡管理員補充額度。'],
   [401, 'AI 金鑰未獲授權，請檢查伺服器設定。'],
   [403, 'AI 金鑰未獲授權，請檢查伺服器設定。'],
   [429, 'AI 暫時忙碌，請稍後重試。'],

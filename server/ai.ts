@@ -3,6 +3,7 @@ import { Value } from '@sinclair/typebox/value';
 import { APIConnectionError, APIError, TypeSafeClient, type Fetch } from '@typesafe-ai/sdk';
 import { legalMoves, type Game, type Move } from '../shared/game';
 import { buildAiRequest, type AiOptions } from './ai-request';
+import { openRouterDecision, OpenRouterHttpError } from './ai-openrouter';
 
 const ChoiceResponseSchema = Type.Object({
   answers: Type.Object({
@@ -25,6 +26,7 @@ export async function chooseMove(
   const offered = new Set(Object.keys(request.questions.move.criteria));
   const eligible = moves.filter((move) => offered.has(move.id));
   if (eligible.length === 1) return eligible[0];
+  const provider = options.provider ?? 'typesafe';
   const client = new TypeSafeClient({
     apiKey,
     baseURL: 'https://api.typesafe.ai',
@@ -36,13 +38,16 @@ export async function chooseMove(
     logLevel: 'off',
   });
   try {
-    const response = await client.systemOne(request);
+    const response =
+      provider === 'openrouter'
+        ? await openRouterDecision(request, apiKey, fetcher)
+        : await client.systemOne(request);
     const inputTokens = response?.usage?.input_tokens;
     // Record provider usage before move validation: rejected answers can still be billable.
     // Unknown usage stays null rather than looking like a free request.
     console.info(
       JSON.stringify({
-        event: 'typesafe.usage',
+        event: provider === 'openrouter' ? 'openrouter.usage' : 'typesafe.usage',
         ...(usageContext?.attemptId ? { attempt_id: usageContext.attemptId } : {}),
         timestamp: new Date().toISOString(),
         room_code: usageContext?.roomCode ?? null,
@@ -61,7 +66,8 @@ export async function chooseMove(
     return move;
   } catch (error) {
     // Provider bodies and transport details must never reach public room snapshots.
-    if (error instanceof APIError) {
+    if (error instanceof APIError || error instanceof OpenRouterHttpError) {
+      if (error.status === 402) throw new Error('AI 服務額度不足，請聯絡管理員補充額度。');
       if (error.status === 401 || error.status === 403)
         throw new Error('AI 金鑰未獲授權，請檢查伺服器設定。');
       if (error.status === 429 || error.status === 529)

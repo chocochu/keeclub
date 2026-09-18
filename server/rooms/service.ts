@@ -1,5 +1,6 @@
 import { randomInt } from 'node:crypto';
 import type { Config, CreateRoom, RoomAction, RoomView, Side } from '../../shared/contracts';
+import { resolveAiConfig, type AiProvider } from '../ai-config';
 import { chooseMove } from '../ai';
 import { HttpError } from '../http/errors';
 import { playAiTurn } from './ai-turn';
@@ -13,16 +14,22 @@ export class RoomService {
   readonly repository: RoomRepository;
   readonly config: Config;
   private readonly apiKey: string;
+  private readonly provider: AiProvider;
   private readonly dice: () => number;
   private readonly choose: typeof chooseMove;
   private readonly presence = new Map<string, Set<string>>();
   private readonly listeners = new Set<RoomListener>();
   constructor(options: RoomOptions = {}) {
     this.repository = new RoomRepository(options.dataFile);
-    this.apiKey = options.apiKey ?? process.env.TYPESAFE_API_KEY ?? '';
+    const ai = resolveAiConfig({
+      ...process.env,
+      AI_PROVIDER: options.provider ?? process.env.AI_PROVIDER,
+    });
+    this.provider = ai.provider;
+    this.apiKey = options.apiKey ?? ai.apiKey;
     this.config = {
       aiAvailable: !!this.apiKey,
-      model: options.model ?? process.env.TYPESAFE_MODEL ?? 'jev-latest',
+      model: options.model ?? ai.model,
     };
     this.dice = options.dice ?? (() => randomInt(1, 7));
     this.choose = options.choose ?? chooseMove;
@@ -91,6 +98,7 @@ export class RoomService {
     this.changed(room);
     void playAiTurn(room, {
       apiKey: this.apiKey,
+      provider: this.provider,
       model: this.config.model,
       dice: this.dice,
       choose: this.choose,

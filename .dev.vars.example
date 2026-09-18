@@ -1,2 +1,7 @@
 # Copy to .dev.vars for local Wrangler development. Never commit real secrets.
 TYPESAFE_API_KEY=
+
+# To use OpenRouter locally:
+# AI_PROVIDER=openrouter
+# OPENROUTER_API_KEY=
+# OPENROUTER_MODEL=typesafe/jev-1.13

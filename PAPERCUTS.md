@@ -615,3 +615,51 @@ The accessibility linter did not recognize the difficulty radio label text neste
 ## 2026-09-17T23:23:27.493Z — gpt-6 — Choco
 
 The isolated Playwright difficulty check passed and closed its browser and HTTP listener, but the Bun harness stayed alive with background handles. Added an explicit exit after successful assertions and cleanup; the production app is unchanged.
+
+<!-- papercut:{"id":"21e561fc-5135-41a1-9205-608c33ea47c5","timestamp":"2026-09-18T14:42:20.095Z","model":"gpt-6-astra","author":"Choco","source":"manual"} -->
+
+## 2026-09-18T14:42:20.095Z — gpt-6-astra — Choco
+
+While testing TypeSafe API, the web tool could not fetch docs.typesafe.ai/llms.txt or api.md; using direct HTTP fetching. The repository has no root AGENTS.md, so the supplied instructions apply.
+
+<!-- papercut:{"id":"5ac05647-0940-42ca-be5e-463202e7b44b","timestamp":"2026-09-18T14:45:10.651Z","model":"gpt-6-astra","author":"Choco","source":"manual"} -->
+
+## 2026-09-18T14:45:10.651Z — gpt-6-astra — Choco
+
+OpenRouter Jev API research: the web tool failed on the model API page and curl returned a client-side redirect; looking up the Decisions endpoint docs directly. A zsh unmatched worker-tests/ai* glob also prevented a read-only inspection command.
+
+<!-- papercut:{"id":"5be02859-ddfc-4956-99f6-0c6635558909","timestamp":"2026-09-18T14:47:14.451Z","model":"gpt-6-astra","author":"Choco","source":"manual"} -->
+
+## 2026-09-18T14:47:14.451Z — gpt-6-astra — Choco
+
+The new AI config resolver inferred its returned provider as string after validation, failing TypeScript assignment to AiProvider. Adding an explicit return type keeps provider selection typed.
+
+<!-- papercut:{"id":"182f0d83-359f-4a68-8051-5af971ef06b2","timestamp":"2026-09-18T14:48:11.689Z","model":"gpt-6-astra","author":"Choco","source":"manual"} -->
+
+## 2026-09-18T14:48:11.689Z — gpt-6-astra — Choco
+
+OpenRouter integration checks found incompatible Bun/Workers HeadersInit overloads in a new test; use the Worker Request constructor for header inspection. OpenRouter's SDK README documentation URL returned 404, so inspecting the installed official package for transport and retry options.
+
+<!-- papercut:{"id":"7b21a5ef-dd60-4c77-8efb-01908ea5069e","timestamp":"2026-09-18T14:49:24.188Z","model":"gpt-6-astra","author":"Choco","source":"manual"} -->
+
+## 2026-09-18T14:49:24.188Z — gpt-6-astra — Choco
+
+The official OpenRouter package ships esm rather than src; its fetch injection accepts Request objects while the existing TypeSafe transport accepts strings, and its Choice instructions are required. Adapting these SDK types explicitly; one patch retry was needed after formatting changed the target line.
+
+<!-- papercut:{"id":"af66c186-44e2-494e-b05a-c2e64a1dd2c5","timestamp":"2026-09-18T14:50:36.652Z","model":"gpt-6-astra","author":"Choco","source":"manual"} -->
+
+## 2026-09-18T14:50:36.652Z — gpt-6-astra — Choco
+
+Workers typechecking rejected the SDK's RequestInfo-or-URL union against overloaded Request constructors despite Bun typechecking passing. Narrowing strings and URLs before constructing the Request fixes the cross-runtime type mismatch.
+
+<!-- papercut:{"id":"2cda109f-34fd-43a9-a9c1-3fac97ca2d1b","timestamp":"2026-09-18T14:51:50.161Z","model":"gpt-6-astra","author":"Choco","source":"manual"} -->
+
+## 2026-09-18T14:51:50.161Z — gpt-6-astra — Choco
+
+The official @openrouter/sdk 1.2.145 npm package references missing .js.map files, causing Vite SSR source-map warnings during Workers tests. Runtime validation continues; the full warnings are preserved in .data/typesafe-diagnostics/openrouter-check.log.
+
+<!-- papercut:{"id":"6a0a44e0-58de-474d-9fd9-b001e23fe858","timestamp":"2026-09-18T14:52:17.220Z","model":"gpt-6-astra","author":"Choco","source":"manual"} -->
+
+## 2026-09-18T14:52:17.220Z — gpt-6-astra — Choco
+
+Workers runtime rejects Request redirect: error, although Bun accepts it; OpenRouter SDK failed before fetch. Use redirect: manual to avoid following redirects in both runtimes, and test redirect responses as failures without retries.

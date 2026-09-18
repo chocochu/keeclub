@@ -7,6 +7,7 @@
       "dependencies": {
         "@elysiajs/eden": "^1.4.9",
         "@elysiajs/static": "^1.4.10",
+        "@openrouter/sdk": "^1.2.145",
         "@sinclair/typebox": "^0.34.52",
         "@tanstack/react-query": "^5.103.1",
         "@typesafe-ai/sdk": "^0.6.0",
@@ -392,6 +393,8 @@
     "@open-draft/logger": ["@open-draft/logger@0.3.0", "", { "dependencies": { "is-node-process": "^1.2.0", "outvariant": "^1.4.0" } }, "sha512-X2g45fzhxH238HKO4xbSr7+wBS8Fvw6ixhTDuvLd5mqh6bJJCFAPwU9mPDxbcrRtfxv4u5IHCEH77BmxvXmmxQ=="],
 
     "@open-draft/until": ["@open-draft/until@2.1.0", "", {}, "sha512-U69T3ItWHvLwGg5eJ0n3I62nWuE6ilHlmz7zM0npLBRvPRd7e6NYmg54vvRtP5mZG7kZqZCFVdsTWo7BPtBujg=="],
+
+    "@openrouter/sdk": ["@openrouter/sdk@1.2.145", "", { "dependencies": { "zod": "^3.25.0 || ^4.0.0" } }, "sha512-rTsEQ1pyll7OrPJTF+4aRrpJ/dQt+tQeWS5jm6lFHetcwnTWcXXWKGjMWp640N+Z8ti66eqORxqlH5XWTUy6rQ=="],
 
     "@oxfmt/binding-android-arm-eabi": ["@oxfmt/binding-android-arm-eabi@0.68.0", "", { "os": "android", "cpu": "arm" }, "sha512-dhfYPbzv/h9JgHjNkl2R6sOjUfxDyLGOZVb3g8/ScaTNwwJcYgmHh8kcYFDUhinuy1QAoANCWUvw1jlk+z6gAg=="],
 

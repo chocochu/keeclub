@@ -76,3 +76,12 @@ AI alarms persist each roll before inference and dispatch at most one inference 
 Cloudflare deployment does not import or delete Bun's `.data/rooms.json.d` snapshots. Keep the old service and backups available for existing games until choosing a cutover/import policy. Browser saves and seat tokens belong to their origin; moving to a new hostname does not transfer browser storage.
 
 Worker rollback does not roll back Durable Object data. Version 1 snapshots must remain readable across code updates. Staging data is isolated from production. The Workers free tier is a usage allowance, not a guaranteed number of concurrent games; measure actual requests, AI duration, storage writes, and TypeSafe input tokens after deployment.
+
+## OpenRouter Jev
+
+To select OpenRouter, change `AI_PROVIDER` to `openrouter` in the target environment's
+`wrangler.jsonc` vars and keep `OPENROUTER_MODEL=typesafe/jev-1.13`. Set the secret
+with `bunx wrangler secret put OPENROUTER_API_KEY --env staging` (or `--env ""` for
+production), then follow the normal check and deployment steps. Do not pass keys
+as command arguments. Local Wrangler uses the same values in `.dev.vars`.
+The TypeSafe key can stay configured; it is not used when OpenRouter is selected.
