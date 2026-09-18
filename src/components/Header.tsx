@@ -5,7 +5,6 @@ import { GAME_INFO } from '../lib/game-info';
 import { roomQuery } from '../lib/query-client';
 import { useAppStore } from '../stores/app-store';
 import { isBrowserRoom } from '../lib/room-location';
-import { playSound, unlockSound } from '../lib/sound';
 
 function RoomHeading({ credentials }: { credentials: Credentials }) {
   const { data: room } = useQuery(roomQuery(credentials));
@@ -50,13 +49,7 @@ export function Header() {
           aria-label="遊戲音效"
           aria-pressed={soundEnabled}
           title={soundEnabled ? '關閉音效' : '開啟音效'}
-          onClick={() => {
-            toggleSound();
-            if (!soundEnabled) {
-              unlockSound();
-              playSound('select');
-            }
-          }}
+          onClick={toggleSound}
         >
           {soundEnabled ? <Volume2 size={17} /> : <VolumeX size={17} />}
           <span>{soundEnabled ? '音效開' : '音效關'}</span>

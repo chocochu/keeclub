@@ -5,7 +5,7 @@ import { ANIMALS, SIDE_NAMES } from '../../../shared/game';
 import type { Move, RoomView, RoomCommand } from '../../../shared/contracts';
 import type { FlightScene } from './flight-playback';
 import { FlightBoard, JungleBoard } from '../../Boards';
-import { playSound } from '../../lib/sound';
+import { useGameSounds } from '../../components/GameSoundProvider';
 export function GameTable({
   room,
   moves,
@@ -21,6 +21,7 @@ export function GameTable({
   leap?: FlightScene['leap'];
   landing?: FlightScene['landing'];
 }) {
+  const { playSound } = useGameSounds();
   const { game, kind } = room;
   const [selection, setSelection] = useState<{ id: string; revision: number } | null>(null);
   const selected = selection?.revision === room.revision ? selection.id : null;

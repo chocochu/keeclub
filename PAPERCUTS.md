@@ -711,3 +711,27 @@ A read of the Worker check log ran before the preceding test and typecheck comma
 ## 2026-09-18T16:05:09.815Z — gpt-6-astra — Choco
 
 Worker verification passed all 19 tests but emitted many missing source-map warnings from the installed @openrouter/sdk package. The warnings made the successful test output harder to scan; the full output is preserved in .data/sound-worker-check.log.
+
+<!-- papercut:{"id":"15e8eea0-9dd7-40e4-a2c0-1f8b30eda5d5","timestamp":"2026-09-18T16:25:24.423Z","model":"gpt-6-astra","author":"Choco","source":"manual"} -->
+
+## 2026-09-18T16:25:24.423Z — gpt-6-astra — Choco
+
+Opening SoundCN in the in-app browser timed out, and the web reader returned only the client-rendered shell. Fetching the official documentation and registry endpoints directly to inspect the integration.
+
+<!-- papercut:{"id":"bb9cc976-2897-4e15-892a-bcb997cad427","timestamp":"2026-09-18T16:26:36.112Z","model":"gpt-6-astra","author":"Choco","source":"manual"} -->
+
+## 2026-09-18T16:26:36.112Z — gpt-6-astra — Choco
+
+Context7 has no SoundCN entry, and shadcn docs use-sound only searches the built-in registry. Used SoundCN’s official registry JSON and source README to verify the hook and its separate sound-engine/sound-types dependencies.
+
+<!-- papercut:{"id":"60f7963e-7daf-460b-9637-9ebc5e53b985","timestamp":"2026-09-18T16:28:27.256Z","model":"gpt-6-astra","author":"Choco","source":"manual"} -->
+
+## 2026-09-18T16:28:27.256Z — gpt-6-astra — Choco
+
+A documentation patch used a sentence as context even though it is part of a longer line in docs/playing.md. The patch was atomic and changed nothing; reapply the standalone SoundCN integration document without that unrelated context.
+
+<!-- papercut:{"id":"82ae560c-48c3-44e2-bd4a-e1918ef81d83","timestamp":"2026-09-18T16:30:10.688Z","model":"gpt-6-astra","author":"Choco","source":"manual"} -->
+
+## 2026-09-18T16:30:10.688Z — gpt-6-astra — Choco
+
+The in-app browser does not expose Page.addScriptToEvaluateOnNewDocument through CDP, so a pre-load Web Audio availability probe could not be installed that way. Normal playback and mute checks passed; browser errors remain guarded in the integration.

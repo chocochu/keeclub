@@ -6,10 +6,9 @@ import { PwaControls } from './components/PwaControls';
 import { Lobby } from './features/lobby/Lobby';
 import { RoomRoute } from './features/room/RoomRoute';
 import { useAppStore } from './stores/app-store';
-import { listenForSound } from './lib/sound';
+import { GameSoundProvider } from './components/GameSoundProvider';
 
 export default function App() {
-  useEffect(listenForSound, []);
   const credentials = useAppStore((s) => s.credentials),
     rules = useAppStore((s) => s.rules),
     kind = useAppStore((s) => s.kind),
@@ -20,15 +19,17 @@ export default function App() {
     return () => window.removeEventListener('popstate', sync);
   }, []);
   return (
-    <div className="app-shell">
-      <Header />
-      <main>
-        <PwaControls />
-        <ErrorBanner />
-        {credentials ? <RoomRoute key={credentials.code} credentials={credentials} /> : <Lobby />}
-        {rules && !credentials && <RulesPanel kind={kind} jungleSettings={jungleSettings} />}
-      </main>
-      <Toast />
-    </div>
+    <GameSoundProvider>
+      <div className="app-shell">
+        <Header />
+        <main>
+          <PwaControls />
+          <ErrorBanner />
+          {credentials ? <RoomRoute key={credentials.code} credentials={credentials} /> : <Lobby />}
+          {rules && !credentials && <RulesPanel kind={kind} jungleSettings={jungleSettings} />}
+        </main>
+        <Toast />
+      </div>
+    </GameSoundProvider>
   );
 }
